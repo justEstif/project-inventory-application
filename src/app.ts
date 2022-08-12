@@ -25,13 +25,14 @@ app.set("view engine", "pug")
 app.use(compression()) // compress all paths
 app.use(helmet()) // protect site by setting appr headers
 
-// app.use(favicon(path.join(__dirname, "..", "public", "favicon.ico")))
+// serve favicon
+app.use(favicon(path.join(__dirname, "..", "public", "favicon.ico")))
 
 // app.use("/", indexRouter)
 // app.use("/catalog", catalogRouter)
 
 app.get("/", (_: Request, res: Response) => {
-  res.send("Hello World!")
+  res.render('layout', { title: 'Hey', message: 'Hello there!' })
 })
 
 app.listen(endpoints.PORT, () => {
