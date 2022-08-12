@@ -32,7 +32,7 @@ app.use(favicon(path.join(__dirname, "..", "public", "favicon.ico")))
 // app.use("/catalog", catalogRouter)
 
 app.get("/", (_: Request, res: Response) => {
-  res.render('layout', { title: 'Hey', message: 'Hello there!' })
+  res.render("layout", { title: "Hey", message: "Hello there!" })
 })
 
 app.listen(endpoints.PORT, () => {
