@@ -80,6 +80,6 @@
 
 ### Installation:
 
-  - npm i express   luxon   mongoose   pug   serve-favicon   express-validator   async   dotenv   compression   helmet
-  - npm i -D  typescript   @types/async   @types/express   @types/luxon   @types/mongoose   @types/node   @types/serve-favicon   concurrently   nodemon   @types/compression
-  - npx tsconfig.json
+  - `npm i express   luxon   mongoose   pug   serve-favicon   express-validator   async   dotenv   compression   helmet`
+  - `npm i -D  typescript   @types/async   @types/express   @types/luxon   @types/mongoose   @types/node   @types/serve-favicon   concurrently   nodemon   @types/compression`
+  - `npx tsconfig.json`
