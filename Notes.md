@@ -4,35 +4,35 @@
 
 ### Dependencies
 
-  - express
-  - mongoose
-  - pug
-  - luxon -> date normalizing
-  - serve-favicon -> favicon request middleware
-  - express-validator -> validate forms
-  - async -> handle async
-  - dotenv
-  - compression
-  - helmet
+- express
+- mongoose
+- pug
+- luxon -> date normalizing
+- serve-favicon -> favicon request middleware
+- express-validator -> validate forms
+- async -> handle async
+- dotenv
+- compression
+- helmet
 
 ### Dev Dependencies
 
-  - typescript
-  - nodemon
-  - concurrently
-  - @types/async
-  - @types/express
-  - @types/luxon
-  - @types/mongoose
-  - @types/node
-  - @types/compression
-  - @types/serve-favicon
+- typescript
+- nodemon
+- concurrently
+- @types/async
+- @types/express
+- @types/luxon
+- @types/mongoose
+- @types/node
+- @types/compression
+- @types/serve-favicon
 
 ## Installation:
 
-  - `npm i express   luxon   mongoose   pug   serve-favicon   express-validator   async   dotenv   compression   helmet`
-  - `npm i -D  typescript   @types/async   @types/express   @types/luxon   @types/mongoose   @types/node   @types/serve-favicon   concurrently   nodemon   @types/compression`
-  - `npx tsconfig.json`
+- `npm i express luxon mongoose pug serve-favicon express-validator async dotenv compression helmet`
+- `npm i -D typescript @types/async @types/express @types/luxon @types/mongoose @types/node @types/serve-favicon concurrently nodemon @types/compression`
+- `npx tsconfig.json`
 
 ## Inventory
 
