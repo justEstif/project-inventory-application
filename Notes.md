@@ -28,7 +28,7 @@
   - @types/compression
   - @types/serve-favicon
 
-### Installation:
+## Installation:
 
   - `npm i express   luxon   mongoose   pug   serve-favicon   express-validator   async   dotenv   compression   helmet`
   - `npm i -D  typescript   @types/async   @types/express   @types/luxon   @types/mongoose   @types/node   @types/serve-favicon   concurrently   nodemon   @types/compression`
@@ -62,6 +62,7 @@
     - url
 
 - Category:
+
   - name,
   - description
   - URL
@@ -79,3 +80,8 @@
   - thumbnail
   - images
   - url
+
+## Making the mongo collection
+
+1. Create a new Mongo Collection using the web-interface as demonstrated in the tutorial
+2. set up your database schemas and models.
