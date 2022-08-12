@@ -20,13 +20,10 @@ const ItemSchema = new Schema<IItem>({
   category: { type: Schema.Types.ObjectId, required: true, ref: "Category" },
   images: [{ type: String, required: true }],
   description: { type: String, required: true },
+  price: { type: Number, required: true, min: 0 },
   discount_percentage: { type: Number, required: true },
-  // TODO: min - 0,
-  price: { type: Number, required: true },
-  // TODO: min - 0, max - 5
-  rating: { type: Number, required: true },
-  // TODO: min - 0,
-  stock: { type: Number, required: true },
+  stock: { type: Number, required: true, min: 0 },
+  rating: { type: Number, required: true, min: 0, max: 5 },
 })
 
 ItemSchema.virtual("url").get(function () {
