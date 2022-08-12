@@ -4,7 +4,7 @@ interface IItem {
   title: string
   description: string
   price: number
-  discount_percentage: number
+  discountPercentage: number
   rating: number
   stock: number
   brand: string
@@ -21,7 +21,7 @@ const ItemSchema = new Schema<IItem>({
   images: [{ type: String, required: true }],
   description: { type: String, required: true },
   price: { type: Number, required: true, min: 0 },
-  discount_percentage: { type: Number, required: true },
+  discountPercentage: { type: Number, required: true },
   stock: { type: Number, required: true, min: 0 },
   rating: { type: Number, required: true, min: 0, max: 5 },
 })
