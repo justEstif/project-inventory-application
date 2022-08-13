@@ -85,3 +85,9 @@
 
 1. Create a new Mongo Collection using the web-interface as demonstrated in the tutorial
 2. set up your database schemas and models.
+3. seed data to mongo
+
+## Routes and Controllers
+
+1. Create the routes that you need
+  - since this is should have all the crud
