@@ -8,4 +8,3 @@ indexRouter.get("/", (_, res) => {
 })
 
 export default indexRouter
-
