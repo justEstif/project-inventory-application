@@ -1,10 +1,10 @@
 import { RequestHandler } from "express"
-/* import category, { ICategory } from "../models/category" */
+/* import Category, { ICategory } from "../models/category" */
 
+// TODO: homepage should just should name of page and category button
 // Homepage - display list of all categorys.
 export const index:RequestHandler = (_, res) => {
   // NOTE: /inventory/
-  // TODO: homepage should just should name of page and category button
   res.send('NOT IMPLEMENTED: Site Home Page');
 };
 
@@ -55,4 +55,3 @@ export const category_update_post: RequestHandler = (_, res) => {
   // NOTE: /inventory/category:id/update
   res.send("NOT IMPLEMENTED: category update POST")
 }
-
