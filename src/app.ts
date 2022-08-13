@@ -7,7 +7,7 @@ import helmet from "helmet"
 
 import endpoints from "./endpoints.config"
 import indexRouter from "./routes"
-import categoryRouter from "./routes/category"
+import inventoryRouter from "./routes/inventory"
 
 // Connect to MongoDB
 mongoose.connect(endpoints.MONGO_URL)
@@ -33,7 +33,7 @@ app.use(favicon(path.join(__dirname, "..", "public", "favicon.ico")))
 
 // Routing
 app.use("/", indexRouter)
-app.use('/category', categoryRouter)
+app.use('/inventory', inventoryRouter)
 
 app.listen(endpoints.PORT, () => {
   console.log(
