@@ -5,7 +5,8 @@ import { RequestHandler } from "express"
 // Homepage - display list of all categorys.
 export const index:RequestHandler = (_, res) => {
   // NOTE: /inventory/
-  res.send('NOT IMPLEMENTED: Site Home Page');
+  // res.send('NOT IMPLEMENTED: Site Home Page');
+  res.render("layout", { title: "Hey", message: "Welcome to Inventory Page" })
 };
 
 // Display list of all books.
