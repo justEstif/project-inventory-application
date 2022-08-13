@@ -91,3 +91,12 @@
 
 1. Create the routes that you need
   - since this is should have all the crud
+
+```
+inventory/ — The home/index page.
+inventory/<objects>/ — The list of all objects -> category || items
+inventory/<object>/<id> — The detail page for a specific category or item with the given _id field value (e.g. /inventory/item/584493c1f4887f06c0e67d37).
+inventory/<object>/create — The form to create a new item or category (e.g. /inventory/category/create).
+inventory/<object>/<id>/update — The form to update a specific item or category with the given_id field value (e.g. /inventory/category/584493c1f4887f06c0e67d37/update).
+inventory/<object>/<id>/delete — The form to delete a specific item or category with the given _id field value (e.g. /inventory/item/584493c1f4887f06c0e67d37/delete).
+```
