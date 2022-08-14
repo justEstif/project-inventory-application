@@ -6,7 +6,7 @@ const inventoryRouter = Router()
 
 /// CATEGORY ROUTES ///
 
-// GET catalog home page.
+// NOTE: Homepage
 inventoryRouter.get("/", category_controller.index)
 
 // GET request for one category.
