@@ -1,9 +1,11 @@
 import { RequestHandler } from "express"
+import { Types } from "mongoose"
+import async from "async"
 import Category from "../models/category"
+import Item, { IItem } from "../models/item"
 
-// Homepage - display list of all categorys.
+// NOTE: Homepage
 export const index: RequestHandler = (_, res, next) => {
-  // show the categories and their description
   Category.find()
     .sort({ name: 1 })
     .exec((err, list_category) => {
@@ -18,16 +20,34 @@ export const index: RequestHandler = (_, res, next) => {
     })
 }
 
-// Display list of all books.
-export const category_list: RequestHandler = (_, res) => {
-  // NOTE: /category
-  res.send("NOT IMPLEMENTED: Book list")
-}
-
 // Display all the items inside of a category
-export const category_detail: RequestHandler = (req, res) => {
+export const category_detail: RequestHandler = (req, res, next) => {
+  interface IResult {
+    item_list: IItem[]
+    category_name: { name: string }
+  }
   // NOTE: /category/:id/
-  res.send(`NOT IMPLEMENTED: category detail: ${req.params.id}`)
+  const categoryID = new Types.ObjectId(req.params.id)
+  async.parallel(
+    {
+      category_name(callback) {
+        Category.find({ _id: categoryID }, "name").exec(callback)
+      },
+      item_list(callback) {
+        Item.find({ category: categoryID }).sort({ title: 1 }).exec(callback)
+      },
+    },
+    (err, results: any | IResult) => {
+      if (err) {
+        next(err)
+      } else {
+        res.render("category_detail", {
+          title: results.category_name[0].name,
+          item_list: results.item_list,
+        })
+      }
+    }
+  )
 }
 
 // Display category create form on GET.
