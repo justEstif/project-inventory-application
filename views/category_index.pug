@@ -8,3 +8,9 @@ block content
   if error
     p Error getting content.
   else
+    ul(class="flex flex-col gap-5 mt-5")
+      each category in category_list
+        li
+          a(href=category.url class="capitalize text-2xl text-slate-600 hover:text-blue-600")= category.name
+          p(class="indent-3")= category.description
+
