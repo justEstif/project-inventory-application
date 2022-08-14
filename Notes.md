@@ -90,7 +90,7 @@
 ## Routes and Controllers
 
 1. Create the routes that you need
-  - since this is should have all the crud
+  - since this should have all crud functions
 
 ```
 inventory/ — The home/index page.
@@ -100,3 +100,10 @@ inventory/<object>/create — The form to create a new item or category (e.g. /i
 inventory/<object>/<id>/update — The form to update a specific item or category with the given_id field value (e.g. /inventory/category/584493c1f4887f06c0e67d37/update).
 inventory/<object>/<id>/delete — The form to delete a specific item or category with the given _id field value (e.g. /inventory/item/584493c1f4887f06c0e67d37/delete).
 ```
+
+## Design
+
+- button on  the top right-corner of category page to edit or delete category
+- you can only add an item to a category that already exists
+
+<!-- NOTE: Deleting a category also means deleting all the items in that category -->
