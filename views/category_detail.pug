@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  div(class="flex flex-col gap-5")
+    h1(class="text-slate-500 text-5xl capitalize")= title
+
+  if error
+    p Error getting content.
+  else
+    ul(class="flex flex-col gap-5 mt-5")
+      each item in item_list
+        li
+          a(href=item.url class="capitalize text-2xl text-slate-600 hover:text-blue-600")= item.title
+          p(class="indent-3")= item.description
+          img(src=item.thumbnail)
+
+
