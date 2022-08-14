@@ -6,7 +6,6 @@ import compression from "compression"
 import helmet from "helmet"
 
 import endpoints from "./endpoints.config"
-import indexRouter from "./routes"
 import inventoryRouter from "./routes/inventory"
 
 // Connect to MongoDB
@@ -32,8 +31,7 @@ app.set("view engine", "pug")
 app.use(favicon(path.join(__dirname, "..", "public", "favicon.ico")))
 
 // Routing
-app.use("/", indexRouter)
-app.use('/inventory', inventoryRouter)
+app.use("/", inventoryRouter)
 
 app.listen(endpoints.PORT, () => {
   console.log(
