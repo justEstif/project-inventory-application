@@ -6,6 +6,18 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     style
       include ../public/styles/output.css
+
   body
-    div(class="bg-red-200")
-      p= message
+    div(class="grid grid-cols-[200px_minmax(900px,_1fr)] m-10")
+      div
+        block sidebar
+          ul(class="text-lg ")
+            li(class="hover:text-blue-500")
+              a(href='/') Home
+            li(class="hover:text-blue-500")
+              a(href='/category/create') Create new category
+            li(class="hover:text-blue-500")
+              a(href='/item/create') Create new item
+
+      div
+        block content
