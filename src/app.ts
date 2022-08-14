@@ -17,7 +17,13 @@ const app: express.Express = express()
 app.use(compression())
 
 // protect site by setting appr headers
-app.use(helmet())
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: false,
+  })
+)
 
 //Body Parser Middleware
 app.use(express.json())
