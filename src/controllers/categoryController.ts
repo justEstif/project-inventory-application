@@ -1,12 +1,21 @@
 import { RequestHandler } from "express"
-/* import Category, { ICategory } from "../models/category" */
+import Category from "../models/category"
 
-// TODO: homepage should just should name of page and category button
 // Homepage - display list of all categorys.
-export const index: RequestHandler = (_, res) => {
-  // NOTE: /
-  // res.send('NOT implemented: Site Home Page');
-  res.render("category_index", { title: "Categories" })
+export const index: RequestHandler = (_, res, next) => {
+  // show the categories and their description
+  Category.find()
+    .sort({ name: 1 })
+    .exec((err, list_category) => {
+      if (err) {
+        next(err)
+      } else {
+        res.render("category_index", {
+          title: "Categories",
+          category_list: list_category,
+        })
+      }
+    })
 }
 
 // Display list of all books.
