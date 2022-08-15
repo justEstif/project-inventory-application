@@ -11,6 +11,7 @@ interface IItem {
   thumbnail: string
   images: string[]
   category: Types.ObjectId
+  url?: string
 }
 
 const ItemSchema = new Schema<IItem>({
@@ -26,7 +27,7 @@ const ItemSchema = new Schema<IItem>({
   rating: { type: Number, required: true, min: 0, max: 5 },
 })
 
-ItemSchema.virtual("url").get(function () {
+ItemSchema.virtual("url").get(function() {
   // TODO: /${category}/${title}
   return "/item/" + this._id
 })

@@ -4,6 +4,7 @@ interface ICategory {
   _id: Types.ObjectId
   name: string
   description: string
+  url?: string
 }
 
 const CategorySchema = new Schema<ICategory>({
