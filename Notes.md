@@ -84,3 +84,61 @@ inventory/<object>/<id>/delete — The form to delete a specific item or categor
 - you can only add an item to a category that already exists
 
 <!-- NOTE: Deleting a category also means deleting all the items in that category -->
+<!-- DONE: Create all of the ‘READ’ views (i.e. view category, and view item) -->
+
+## CRUD
+
+- C - create
+DONE - R - read
+- U - update
+- D - delete
+
+```
+export const category_create_get: RequestHandler = (_, res) => {
+  res.render("category_form", { title: "Create Category" })
+}
+
+export const category_create_post = [
+  // Validate and sanitize
+  body("name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Category name must be specified.")
+    .isAlphanumeric()
+    .withMessage("Category name has non-alphanumeric characters."),
+  body("description")
+    .trim()
+    .isLength({ min: 8 })
+    .escape()
+    .withMessage("Category description must be specified.")
+  ,
+  // Process request after validation and sanitization.
+  (req: Request, res: Response, next: NextFunction) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req)
+
+    switch (!errors.isEmpty()) {
+      case true:
+        // There are errors. Render form again with sanitized values/errors messages.
+        res.render("category_form", {
+          title: "Create Category",
+          category: req.body,
+          errors: errors.array(),
+        })
+        return
+      default:
+        // Data from form is valid.
+        const category = new Category({
+          name: req.body.name,
+          description: req.body.description,
+        })
+        category.save((err) => {
+          if (err) return next(err)
+          res.redirect(category.url)
+        })
+    }
+  },
+]
+```
+
