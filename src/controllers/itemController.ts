@@ -1,18 +1,15 @@
 import { RequestHandler } from "express"
-import { Types } from "mongoose"
-import Item, { IItem } from "../models/item"
+import Item from "../models/item"
 
 // Display detail page for a specific item.
 export const item_detail: RequestHandler = (req, res, next) => {
   // NOTE: /inventory/item/:id/
-  const itemID = new Types.ObjectId(req.params.id)
-  Item.find({ _id: itemID }).exec((err, item_detail) => {
+  Item.findById(req.params.id).exec((err, item_detail) => {
     if (err) {
       next(err)
     } else {
-      const item: IItem = item_detail[0] as IItem
       res.render("item_detail", {
-        item: item,
+        item: item_detail,
       })
     }
   })
