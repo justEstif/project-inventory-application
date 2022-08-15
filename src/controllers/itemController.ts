@@ -1,10 +1,23 @@
 import { RequestHandler } from "express"
-/* import Item, { IItem } from "../models/item" */
+import { Types } from "mongoose"
+import Item, { IItem } from "../models/item"
 
 // Display detail page for a specific item.
-export const item_detail: RequestHandler = (req, res) => {
+export const item_detail: RequestHandler = (req, res, next) => {
   // NOTE: /inventory/item/:id/
-  res.send(`NOT IMPLEMENTED: item detail: ${req.params.id}`)
+
+  const itemID = new Types.ObjectId(req.params.id)
+  Item.find({ _id: itemID }).exec((err, item_detail) => {
+    if (err) {
+      next(err)
+    } else {
+      const item: IItem = item_detail[0] as IItem
+      res.render("item_detail", {
+        title: item.title,
+        item: item,
+      })
+    }
+  })
 }
 
 // Display item create form on GET.
