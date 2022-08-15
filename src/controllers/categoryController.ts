@@ -1,6 +1,7 @@
-import { RequestHandler } from "express"
-import { Types } from "mongoose"
+import { RequestHandler, Request, Response, NextFunction } from "express"
 import async from "async"
+import { Types } from "mongoose"
+import { body, validationResult } from "express-validator"
 import Category from "../models/category"
 import Item, { IItem } from "../models/item"
 
@@ -56,10 +57,55 @@ export const category_create_get: RequestHandler = (_, res) => {
 }
 
 // Handle category create on POST.
-export const category_create_post: RequestHandler = (_, res) => {
-  // NOTE: /category/create
-  res.send("NOT IMPLEMENTED: category create POST")
-}
+export const category_create_post = [
+  // Validate and sanitize
+  body("name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Category name must be specified.")
+    .isAlphanumeric()
+    .withMessage("Category name has non-alphanumeric characters."),
+  body("description")
+    .trim()
+    .isLength({ min: 8 })
+    .escape()
+    .withMessage("Category description must be specified."),
+  // Process request after validation and sanitization.
+  (req: Request, res: Response, next: NextFunction) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req)
+
+    switch (!errors.isEmpty()) {
+      case true:
+        // There are errors. Render form again with sanitized values/errors messages.
+        res.render("category_form", {
+          title: "Create Category",
+          category: req.body,
+          errors: errors.array(),
+        })
+        return
+      default:
+        // Data from form is valid.
+        const category = new Category({
+          _id: new Types.ObjectId(),
+          name: req.body.name,
+          description: req.body.description,
+        })
+        category.save((err) => {
+          if (err) {
+            return next(err)
+          } else {
+            if (category.url) {
+              res.redirect(category.url)
+            } else {
+              res.redirect("/")
+            }
+          }
+        })
+    }
+  },
+]
 
 // Display category delete form on GET.
 export const category_delete_get: RequestHandler = (_, res) => {
