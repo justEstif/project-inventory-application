@@ -7,10 +7,11 @@ block content
   if error
     p Error getting content.
   else
-    ul(class="flex flex-col gap-5 mt-5")
+    ul(class="grid grid-cols-2 gap-5")
       each item in item_list
-        li
-          a(href=item.url class="capitalize text-2xl text-slate-600 hover:text-blue-600")= item.title
-          p(class="indent-3")= item.description
+        li(class="grid gap-2 grid-cols-2 py-10 w-full")
+          div
+            a(href=item.url class="capitalize text-2xl text-slate-600 hover:text-blue-600")= item.title
+            p= item.description
           img(src=item.thumbnail crossorigin="anonymous")
 
