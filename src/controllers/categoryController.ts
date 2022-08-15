@@ -27,14 +27,13 @@ export const category_detail: RequestHandler = (req, res, next) => {
     category_name: { name: string }
   }
   // NOTE: /category/:id/
-  const categoryID = new Types.ObjectId(req.params.id)
   async.parallel(
     {
       category_name(callback) {
-        Category.find({ _id: categoryID }, "name").exec(callback)
+        Category.findById(req.params.id, "name").exec(callback)
       },
       item_list(callback) {
-        Item.find({ category: categoryID }).sort({ title: 1 }).exec(callback)
+        Item.find({ category: req.params.id }).sort({ title: 1 }).exec(callback)
       },
     },
     (err, results: any | IResult) => {
@@ -42,7 +41,7 @@ export const category_detail: RequestHandler = (req, res, next) => {
         next(err)
       } else {
         res.render("category_detail", {
-          title: results.category_name[0].name,
+          title: results.category_name.name,
           item_list: results.item_list,
         })
       }
@@ -53,7 +52,7 @@ export const category_detail: RequestHandler = (req, res, next) => {
 // Display category create form on GET.
 export const category_create_get: RequestHandler = (_, res) => {
   // NOTE: /category/create
-  res.send("NOT IMPLEMENTED: category create GET")
+  res.render("category_form", { title: "Create Category" })
 }
 
 // Handle category create on POST.
