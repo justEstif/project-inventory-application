@@ -5,7 +5,6 @@ import Item, { IItem } from "../models/item"
 // Display detail page for a specific item.
 export const item_detail: RequestHandler = (req, res, next) => {
   // NOTE: /inventory/item/:id/
-
   const itemID = new Types.ObjectId(req.params.id)
   Item.find({ _id: itemID }).exec((err, item_detail) => {
     if (err) {
@@ -13,7 +12,6 @@ export const item_detail: RequestHandler = (req, res, next) => {
     } else {
       const item: IItem = item_detail[0] as IItem
       res.render("item_detail", {
-        title: item.title,
         item: item,
       })
     }
