@@ -2,7 +2,7 @@ extends layout
 
 block content
   div(class="flex flex-col gap-5")
-    h1(class="text-slate-500 text-5xl capitalize")= title
+    h1(class="text-slate-500 text-5xl capitalize")= item.title
 
   if error
     p Error getting content.
@@ -16,4 +16,4 @@ block content
       ul(class="grid grid-cols-3")
         each image in item.images
           li
-          img(src=image crossorigin="anonymous")
+            img(src=image crossorigin="anonymous")
