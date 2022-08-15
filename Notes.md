@@ -107,3 +107,49 @@ inventory/<object>/<id>/delete — The form to delete a specific item or categor
 - you can only add an item to a category that already exists
 
 <!-- NOTE: Deleting a category also means deleting all the items in that category -->
+
+Hello,
+
+I am working on the Inventory Management project, and I want to display images of items from an external url.
+In my db, I have stored items with thumbnail property which has the url of the image like so:
+
+```js
+const ItemSchema = new Schema<IItem>({
+  // ... other properties
+  thumbnail: { type: String, required: true },
+})
+```
+
+After I retrieve the url, and try to display it in the template like so:
+```pug
+li
+  a(href=item.url class="capitalize text-2xl text-slate-600 hover:text-blue-600")= item.title
+  p(class="indent-3")= item.description
+  img(src=item.thumbnail)
+```
+
+The browser shows this error message:
+`GET https://dummyjson.com/image/i/products/11/thumbnail.jpg net::ERR_BLOCKED_BY_RESPONSE.NotSameOriginAfterDefaultedToSameOriginByCoep 200`
+
+I googled the problem, and I came upon this solution but it didn't solve the problem:
+
+```js
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  }),
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "img-src": ["'self'", "https: data:"],
+    },
+  })
+)
+```
+I suspect I have to add something in the img-src, but I don't understand the format to use.
+Another idea was to use the cors middleware, but I decided to ask a question beforehand.
+
+Do you mind explaining why this did not work? And any amendment I could make.
+
+Thanks.

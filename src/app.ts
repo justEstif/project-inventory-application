@@ -13,15 +13,18 @@ mongoose.connect(endpoints.MONGO_URL)
 
 const app: express.Express = express()
 
-// compress all paths
-app.use(compression())
+app.use(compression()) // compress all paths
 
-// protect site by setting appr headers
 app.use(
   helmet({
     contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
-    crossOriginOpenerPolicy: false,
+  }),
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "img-src": ["'self'", "https: data:"],
+    },
   })
 )
 
