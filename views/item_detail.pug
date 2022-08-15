@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  div(class="flex flex-col gap-5")
+    h1(class="text-slate-500 text-5xl capitalize")= title
+
+  if error
+    p Error getting content.
+  else
+    div
+      p(class="capitalize text-2xl text-slate-600")= item.brand
+      p Rating: #{item.rating}/5
+      p In stock: #{item.stock}
+      p Unit price: $#{item.price}
+      p= item.description
+      ul(class="grid grid-cols-3")
+        each image in item.images
+          li
+          img(src=image crossorigin="anonymous")
