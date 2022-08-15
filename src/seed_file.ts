@@ -242,12 +242,12 @@ const itemsData: IItem[] = [
   },
   {
     title: "Brown Perfume",
-    description: "Royal_Mirage Sport Brown Perfume for Men & Women - 120ml",
+    description: "Royal Mirage Sport Brown Perfume for Men & Women - 120ml",
     price: 40,
     discountPercentage: 15.66,
     rating: 4,
     stock: 52,
-    brand: "Royal_Mirage",
+    brand: "Royal Mirage",
     category: fragrancesID,
     thumbnail: "https://dummyjson.com/image/i/products/12/thumbnail.jpg",
     images: [
@@ -408,7 +408,7 @@ const itemsData: IItem[] = [
     ],
   },
   {
-    title: "- Daal Masoor 500 grams",
+    title: "Daal Masoor 500 grams",
     description: "Fine quality Branded Product Keep in a cool and dry place",
     price: 20,
     discountPercentage: 4.81,
