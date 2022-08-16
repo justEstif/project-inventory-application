@@ -1,15 +1,16 @@
 extends layout
 
 block content
-  h1= title
+  h1(class="text-slate-500 text-5xl capitalize")= title
 
   form(method='POST' action='')
-    div.form-group
-      label(for='name') Name:
-      input#name.form-control(type='text', placeholder='Name' name='name' required='true' value=(undefined===category ? '' : category.name) )
-    div.form-group
-      label(for='description') Description:
-      input#description.form-control(type='text', placeholder='Description' name='description' required='true' value=(undefined===category ? '' : category.description) )
+    div(class="flex flex-col gap-10 my-10")
+      div.form-group(class="flex gap-5")
+        label(for='name' class="capitalize text-2xl text-slate-600") Name:
+        input#name.form-control(type='text', placeholder='Name' name='name' required='true' value=(undefined===category ? '' : category.name) )
+      div.form-group(class="flex gap-5")
+        label(for='description' class="capitalize text-2xl text-slate-600") Description:
+        textarea#description.form-control(rows="3", cols="30" placeholder='Description' name='description' required='true' value=(undefined===category ? '' : category.description) )
     button.btn.btn-primary(type='submit') Submit
 
   if errors
