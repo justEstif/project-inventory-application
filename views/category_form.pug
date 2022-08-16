@@ -5,13 +5,13 @@ block content
 
   form(method='POST' action='')
     div(class="flex flex-col gap-10 my-10")
-      div.form-group(class="flex gap-5")
+      div.form-group(class="flex max-w-lg w-full justify-between gap-5")
         label(for='name' class="capitalize text-2xl text-slate-600") Name:
-        input#name.form-control(type='text', placeholder='Name' name='name' required='true' value=(undefined===category ? '' : category.name) )
-      div.form-group(class="flex gap-5")
+        input#name.form-control(type='text', placeholder='Name' class="text-right px-3" name='name' required='true' value=(undefined===category ? '' : category.name) )
+      div.form-group(class="flex max-w-lg w-full justify-between gap-5")
         label(for='description' class="capitalize text-2xl text-slate-600") Description:
-        textarea#description.form-control(rows="3", cols="30" placeholder='Description' name='description' required='true' value=(undefined===category ? '' : category.description) )
-    button.btn.btn-primary(type='submit') Submit
+        textarea#description.form-control(rows="3", cols="30" class="text-right px-3" placeholder='Description' name='description' required='true' value=(undefined===category ? '' : category.description) )
+    button.btn.btn-primary(type='submit' class="px-6 py-2.5 bg-slate-600 hover:bg-blue-600 text-white font-medium text-xs leading-tight") Submit
 
   if errors
     ul
