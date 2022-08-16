@@ -30,7 +30,7 @@ export const category_detail: RequestHandler = (req, res, next) => {
   async.parallel(
     {
       category_name(callback) {
-        Category.findById(req.params.id, "name").exec(callback)
+        Category.findById(req.params.id).exec(callback)
       },
       item_list(callback) {
         Item.find({ category: req.params.id }).sort({ title: 1 }).exec(callback)
@@ -43,6 +43,7 @@ export const category_detail: RequestHandler = (req, res, next) => {
         res.render("category_detail", {
           title: results.category_name.name,
           item_list: results.item_list,
+          category: results.category_name,
         })
       }
     }
@@ -107,15 +108,45 @@ export const category_create_post = [
 ]
 
 // Display category delete form on GET.
-export const category_delete_get: RequestHandler = (_, res) => {
-  // NOTE: /category:id/delete
-  res.send("NOT IMPLEMENTED: category delete GET")
+export const category_delete_get: RequestHandler = (req, res, next) => {
+  async.parallel(
+    {
+      category(callback) {
+        Category.findById(req.params.id).exec(callback)
+      },
+      items(callback) {
+        Item.find({ category: req.params.id }).exec(callback)
+      },
+    },
+    (err, results) => {
+      if (err) return next(err)
+      else {
+        res.render("category_delete", {
+          title: "Delete Category",
+          category: results.category,
+          items: results.items,
+        })
+      }
+    }
+  )
 }
 
 // Handle category delete on POST.
-export const category_delete_post: RequestHandler = (_, res) => {
-  // NOTE: /category:id/delete
-  res.send("NOT IMPLEMENTED: category delete POST")
+export const category_delete_post: RequestHandler = (req, res, next) => {
+  async.parallel(
+    {
+      item(callback) {
+        Item.deleteMany({ category: req.body.id }).exec(callback)
+      },
+      category(callback) {
+        Category.findByIdAndRemove(req.body.id).exec(callback)
+      },
+    },
+    (err, _) => {
+      if (err) return next(err)
+      res.redirect("/")
+    }
+  )
 }
 
 // Display category update form on GET.
