@@ -88,9 +88,83 @@ inventory/<object>/<id>/delete — The form to delete a specific item or categor
 
 ## CRUD
 
+<!-- DONE: WITH THE C -->
+<!-- DONE: WITH THE R -->
 - C - create
-DONE - R - read
+- DONE - R - read
 - U - update
 - D - delete
 
-- The reason the create form was not rendering was because the order of the routes.
+<!-- - NOTE: The reason the create form was not rendering was because the order of the routes. -->
+
+- working on how to delete the category and all the items in that category.
+```
+// Display category delete form on GET.
+export const category_delete_get: RequestHandler = (req, res, next) => {
+  async.parallel(
+    {
+      category(callback) {
+        Category.findById(req.params.id)
+          .exec(callback)
+      },
+      items(callback) {
+        item.find({ category: req.params.id }).exec(callback)
+      },
+    },
+    (err, results) => {
+      if (err) return next(err)
+      else {
+        res.render("category_delete", {
+          title: "Delete Category",
+          category: results.category,
+          items: results.items,
+        })
+      }
+    }
+  )
+}
+
+// Handle category delete on POST.
+export const category_delete_post: RequestHandler = (req, res, next) => {
+  async.parallel(
+    {
+      category(callback) {
+        Category.findById(req.params.id)
+          .exec(callback)
+      },
+      items(callback) {
+        item.find({ category: req.params.id }).exec(callback)
+      },
+    },
+    (err, results) => {
+      if (err) return next(err)
+
+      else if {
+        res.render("category_delete", {
+          title: "Delete Category",
+          category: results.category,
+          items: results.items,
+        })
+        return
+      }
+      else {
+        async.parallel(
+        {
+            item(callback){
+                Item.deleteMany({ category: req.params.id }).exec(callback);
+            },
+            category(callback){
+                Category.findByIdAndRemove(req.body.id).exec(callback)
+              }
+          },
+          (err, results) =>{
+              if(err) return next(err)
+                res.redirect("/category")
+            }
+        )
+      }
+    }
+  )
+}
+
+```
