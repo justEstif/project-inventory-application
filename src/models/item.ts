@@ -8,8 +8,8 @@ interface IItem {
   stock: number
   brand: string
   thumbnail: string
-  images: string[]
   category: string | Types.ObjectId
+  images: string[]
   url?: string
 }
 
@@ -27,7 +27,6 @@ const ItemSchema = new Schema<IItem>({
 })
 
 ItemSchema.virtual("url").get(function() {
-  // TODO: /${category}/${title}
   return "/item/" + this._id
 })
 
