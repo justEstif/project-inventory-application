@@ -2,44 +2,37 @@ import { Types } from "mongoose"
 import Category, { ICategory } from "./models/category"
 import Item, { IItem } from "./models/item"
 
-const smartphonesID = new Types.ObjectId()
-const laptopsID = new Types.ObjectId()
-const fragrancesID = new Types.ObjectId()
-const skincareID = new Types.ObjectId()
-const groceriesID = new Types.ObjectId()
-const homedecorationID = new Types.ObjectId()
+interface ICategoryDB extends ICategory {
+  _id: Types.ObjectId
+}
+const allCategories: ICategoryDB[] = []
+const allItems: IItem[] = []
 
 const categoriesData: ICategory[] = [
   {
-    _id: smartphonesID,
     name: "smartphones",
     description:
       "A smartphone is a handheld electronic device that provides a connection to a cellular network and the internet.",
   },
   {
-    _id: laptopsID,
     name: "laptops",
     description:
       "A computer that is portable and suitable for use while traveling.",
   },
   {
-    _id: fragrancesID,
     name: "fragrances",
     description: "Fragrance is a unisex, generic term used for perfume.",
   },
   {
-    _id: skincareID,
-    name: "fragrances",
+    name: "skin care",
     description:
       "Skin care products support skin integrity, enhance its appearance and relieve skin conditions.",
   },
   {
-    _id: groceriesID,
     name: "groceries",
     description: "Groceries are items of food sold in a grocery store",
   },
   {
-    _id: homedecorationID,
     name: "home decoration",
     description: "Items to style of furnish and decorate your home.",
   },
@@ -54,7 +47,7 @@ const itemsData: IItem[] = [
     rating: 4.69,
     stock: 94,
     brand: "Apple",
-    category: smartphonesID,
+    category: "smartphones",
     thumbnail: "https://dummyjson.com/image/i/products/1/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/1/1.jpg",
@@ -73,7 +66,7 @@ const itemsData: IItem[] = [
     rating: 4.44,
     stock: 34,
     brand: "Apple",
-    category: smartphonesID,
+    category: "smartphones",
     thumbnail: "https://dummyjson.com/image/i/products/2/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/2/1.jpg",
@@ -91,7 +84,7 @@ const itemsData: IItem[] = [
     rating: 4.09,
     stock: 36,
     brand: "Samsung",
-    category: smartphonesID,
+    category: "smartphones",
     thumbnail: "https://dummyjson.com/image/i/products/3/thumbnail.jpg",
     images: ["https://dummyjson.com/image/i/products/3/1.jpg"],
   },
@@ -103,7 +96,7 @@ const itemsData: IItem[] = [
     rating: 4.3,
     stock: 123,
     brand: "OPPO",
-    category: smartphonesID,
+    category: "smartphones",
     thumbnail: "https://dummyjson.com/image/i/products/4/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/4/1.jpg",
@@ -122,7 +115,7 @@ const itemsData: IItem[] = [
     rating: 4.09,
     stock: 32,
     brand: "Huawei",
-    category: smartphonesID,
+    category: "smartphones",
     thumbnail: "https://dummyjson.com/image/i/products/5/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/5/1.jpg",
@@ -139,7 +132,7 @@ const itemsData: IItem[] = [
     rating: 4.57,
     stock: 83,
     brand: "APPle",
-    category: laptopsID,
+    category: "laptops",
     thumbnail: "https://dummyjson.com/image/i/products/6/thumbnail.png",
     images: [
       "https://dummyjson.com/image/i/products/6/1.png",
@@ -157,7 +150,7 @@ const itemsData: IItem[] = [
     rating: 4.25,
     stock: 50,
     brand: "Samsung",
-    category: laptopsID,
+    category: "laptops",
     thumbnail: "https://dummyjson.com/image/i/products/7/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/7/1.jpg",
@@ -175,7 +168,7 @@ const itemsData: IItem[] = [
     rating: 4.43,
     stock: 68,
     brand: "Microsoft Surface",
-    category: laptopsID,
+    category: "laptops",
     thumbnail: "https://dummyjson.com/image/i/products/8/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/8/1.jpg",
@@ -194,7 +187,7 @@ const itemsData: IItem[] = [
     rating: 4.54,
     stock: 96,
     brand: "Infinix",
-    category: laptopsID,
+    category: "laptops",
     thumbnail: "https://dummyjson.com/image/i/products/9/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/9/1.jpg",
@@ -213,7 +206,7 @@ const itemsData: IItem[] = [
     rating: 4.43,
     stock: 89,
     brand: "HP Pavilion",
-    category: laptopsID,
+    category: "laptops",
     thumbnail: "https://dummyjson.com/image/i/products/10/thumbnail.jpeg",
     images: [
       "https://dummyjson.com/image/i/products/10/1.jpg",
@@ -231,7 +224,7 @@ const itemsData: IItem[] = [
     rating: 4.26,
     stock: 65,
     brand: "Impression of Acqua Di Gio",
-    category: fragrancesID,
+    category: "fragrances",
     thumbnail: "https://dummyjson.com/image/i/products/11/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/11/1.jpg",
@@ -248,7 +241,7 @@ const itemsData: IItem[] = [
     rating: 4,
     stock: 52,
     brand: "Royal Mirage",
-    category: fragrancesID,
+    category: "fragrances",
     thumbnail: "https://dummyjson.com/image/i/products/12/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/12/1.jpg",
@@ -267,7 +260,7 @@ const itemsData: IItem[] = [
     rating: 4.59,
     stock: 61,
     brand: "Fog Scent Xpressio",
-    category: fragrancesID,
+    category: "fragrances",
     thumbnail: "https://dummyjson.com/image/i/products/13/thumbnail.webp",
     images: [
       "https://dummyjson.com/image/i/products/13/1.jpg",
@@ -286,7 +279,7 @@ const itemsData: IItem[] = [
     rating: 4.21,
     stock: 114,
     brand: "Al Munakh",
-    category: fragrancesID,
+    category: "fragrances",
     thumbnail: "https://dummyjson.com/image/i/products/14/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/14/1.jpg",
@@ -304,7 +297,7 @@ const itemsData: IItem[] = [
     rating: 4.7,
     stock: 105,
     brand: "Lord - Al-Rehab",
-    category: fragrancesID,
+    category: "fragrances",
     thumbnail: "https://dummyjson.com/image/i/products/15/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/15/1.jpg",
@@ -323,7 +316,7 @@ const itemsData: IItem[] = [
     rating: 4.83,
     stock: 110,
     brand: "L'Oreal Paris",
-    category: skincareID,
+    category: "skin care",
     thumbnail: "https://dummyjson.com/image/i/products/16/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/16/1.png",
@@ -342,7 +335,7 @@ const itemsData: IItem[] = [
     rating: 4.52,
     stock: 78,
     brand: "Hemani Tea",
-    category: skincareID,
+    category: "skin care",
     thumbnail: "https://dummyjson.com/image/i/products/17/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/17/1.jpg",
@@ -360,7 +353,7 @@ const itemsData: IItem[] = [
     rating: 4.56,
     stock: 88,
     brand: "Dermive",
-    category: skincareID,
+    category: "skin care",
     thumbnail: "https://dummyjson.com/image/i/products/18/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/18/1.jpg",
@@ -379,7 +372,7 @@ const itemsData: IItem[] = [
     rating: 4.42,
     stock: 54,
     brand: "ROREC White Rice",
-    category: skincareID,
+    category: "skin care",
     thumbnail: "https://dummyjson.com/image/i/products/19/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/19/1.jpg",
@@ -397,7 +390,7 @@ const itemsData: IItem[] = [
     rating: 4.06,
     stock: 140,
     brand: "Fair & Clear",
-    category: skincareID,
+    category: "skin care",
     thumbnail: "https://dummyjson.com/image/i/products/20/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/20/1.jpg",
@@ -415,7 +408,7 @@ const itemsData: IItem[] = [
     rating: 4.44,
     stock: 133,
     brand: "Saaf & Khaas",
-    category: groceriesID,
+    category: "skin care",
     thumbnail: "https://dummyjson.com/image/i/products/21/thumbnail.png",
     images: [
       "https://dummyjson.com/image/i/products/21/1.png",
@@ -431,7 +424,7 @@ const itemsData: IItem[] = [
     rating: 4.57,
     stock: 146,
     brand: "Bake Parlor Big",
-    category: groceriesID,
+    category: "groceries",
     thumbnail: "https://dummyjson.com/image/i/products/22/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/22/1.jpg",
@@ -448,7 +441,7 @@ const itemsData: IItem[] = [
     rating: 4.85,
     stock: 26,
     brand: "Baking Food Items",
-    category: groceriesID,
+    category: "groceries",
     thumbnail: "https://dummyjson.com/image/i/products/23/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/23/1.jpg",
@@ -467,7 +460,7 @@ const itemsData: IItem[] = [
     rating: 4.94,
     stock: 113,
     brand: "fauji",
-    category: groceriesID,
+    category: "groceries",
     thumbnail: "https://dummyjson.com/image/i/products/24/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/24/1.jpg",
@@ -485,7 +478,7 @@ const itemsData: IItem[] = [
     rating: 4.87,
     stock: 47,
     brand: "Dry Rose",
-    category: groceriesID,
+    category: "groceries",
     thumbnail: "https://dummyjson.com/image/i/products/25/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/25/1.png",
@@ -504,7 +497,7 @@ const itemsData: IItem[] = [
     rating: 4.08,
     stock: 131,
     brand: "Boho Decor",
-    category: homedecorationID,
+    category: "home decoration",
     thumbnail: "https://dummyjson.com/image/i/products/26/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/26/1.jpg",
@@ -524,7 +517,7 @@ const itemsData: IItem[] = [
     rating: 4.41,
     stock: 17,
     brand: "Flying Wooden",
-    category: homedecorationID,
+    category: "home decoration",
     thumbnail: "https://dummyjson.com/image/i/products/27/thumbnail.webp",
     images: [
       "https://dummyjson.com/image/i/products/27/1.jpg",
@@ -543,7 +536,7 @@ const itemsData: IItem[] = [
     rating: 4.82,
     stock: 54,
     brand: "LED Lights",
-    category: homedecorationID,
+    category: "home decoration",
     thumbnail: "https://dummyjson.com/image/i/products/28/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/28/1.jpg",
@@ -562,7 +555,7 @@ const itemsData: IItem[] = [
     rating: 4.44,
     stock: 7,
     brand: "luxury palace",
-    category: homedecorationID,
+    category: "home decoration",
     thumbnail: "https://dummyjson.com/image/i/products/29/thumbnail.webp",
     images: [
       "https://dummyjson.com/image/i/products/29/1.jpg",
@@ -581,7 +574,7 @@ const itemsData: IItem[] = [
     rating: 4.92,
     stock: 54,
     brand: "Golden",
-    category: homedecorationID,
+    category: "home decoration",
     thumbnail: "https://dummyjson.com/image/i/products/30/thumbnail.jpg",
     images: [
       "https://dummyjson.com/image/i/products/30/1.jpg",
@@ -591,23 +584,41 @@ const itemsData: IItem[] = [
     ],
   },
 ]
-
 /* mongoose.connect(endpointsConfig.MONGO_URL) */
 const createCategories = () => {
-  const categories = categoriesData.map((category) => new Category(category))
-  categories.map((category) => {
-    category.save((err, _) => {
-      err ? console.log("Error", err) : console.log("Category", category)
+  categoriesData.forEach((category) => {
+    const newCategory = new Category(category)
+    allCategories.push(newCategory)
+    newCategory.save((err) => {
+      if (err) {
+        return console.error(newCategory, err)
+      }
     })
   })
 }
 
 const createItems = () => {
-  const items = itemsData.map((item) => new Item(item))
-  items.map((item) => {
-    item.save((err, _) => {
-      err ? console.log("Error", err) : console.log("Item", item)
-    })
+  const matchingCategoryID = (item: IItem) => {
+    for (const category of allCategories) {
+      if (category.name === item.category) return category._id
+    }
+    return ""
+  }
+
+  itemsData.forEach((item) => {
+    if (matchingCategoryID(item) === "") {
+      return
+    } else {
+      item.category = matchingCategoryID(item)
+      const newItem = new Item(item)
+
+      allItems.push(newItem)
+      newItem.save((err) => {
+        if (err) {
+          return console.error(newItem, err)
+        }
+      })
+    }
   })
 }
 
