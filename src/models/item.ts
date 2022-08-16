@@ -17,7 +17,7 @@ const ItemSchema = new Schema<IItem>({
   title: { type: String, required: true },
   brand: { type: String, required: true },
   thumbnail: { type: String, required: true },
-  category: { type: Schema.Types.ObjectId, required: true, ref: "Category" },
+  category: { type: Schema.Types.ObjectId, required: true, ref: "categories" },
   images: [{ type: String, required: true }],
   description: { type: String, required: true },
   price: { type: Number, required: true, min: 0 },
