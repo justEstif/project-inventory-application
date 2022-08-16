@@ -1,4 +1,3 @@
-
 import { Types, Schema, model } from "mongoose"
 interface IItem {
   title: string
@@ -10,7 +9,7 @@ interface IItem {
   brand: string
   thumbnail: string
   images: string[]
-  category: Types.ObjectId
+  category: string | Types.ObjectId
   url?: string
 }
 
