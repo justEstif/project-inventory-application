@@ -9,8 +9,6 @@ const inventoryRouter = Router();
 // NOTE: Homepage
 inventoryRouter.get("/", category_controller.index);
 
-// GET request for one category.
-inventoryRouter.get("/category/:id", category_controller.category_detail);
 
 // GET request for creating a category. NOTE This must come before routes that display category (uses id).
 inventoryRouter.get(
@@ -23,6 +21,9 @@ inventoryRouter.post(
   "/category/create",
   category_controller.category_create_post
 );
+
+// GET request for one category.
+inventoryRouter.get("/category/:id", category_controller.category_detail);
 
 // GET request to delete category.
 inventoryRouter.get(
