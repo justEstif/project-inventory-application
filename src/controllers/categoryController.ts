@@ -1,6 +1,5 @@
 import { RequestHandler, Request, Response, NextFunction } from "express"
 import async from "async"
-import { Types } from "mongoose"
 import { body, validationResult } from "express-validator"
 import Category from "../models/category"
 import Item, { IItem } from "../models/item"
@@ -71,6 +70,7 @@ export const category_create_post = [
     .isLength({ min: 8 })
     .escape()
     .withMessage("Category description must be specified."),
+
   // Process request after validation and sanitization.
   (req: Request, res: Response, next: NextFunction) => {
     // Extract the validation errors from a request.
@@ -88,7 +88,6 @@ export const category_create_post = [
       default:
         // Data from form is valid.
         const category = new Category({
-          _id: new Types.ObjectId(),
           name: req.body.name,
           description: req.body.description,
         })
