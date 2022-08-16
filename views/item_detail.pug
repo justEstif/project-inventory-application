@@ -17,3 +17,7 @@ block content
         each image in item.images
           li
             img(src=image crossorigin="anonymous")
+    p
+      a(href=item.url+'/update') Update item
+    p
+      a(href=item.url+'/delete') Delete item
