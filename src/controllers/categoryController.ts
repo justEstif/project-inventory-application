@@ -168,7 +168,57 @@ export const category_update_get: RequestHandler = (req, res, next) => {
 }
 
 // Handle category update on POST.
-export const category_update_post: RequestHandler = (_, res) => {
-  // NOTE: /category:id/update
-  res.send("NOT IMPLEMENTED: category update POST")
-}
+export const category_update_post = [
+  // Validate and sanitize
+  body("name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Category name must be specified.")
+    .isAlphanumeric()
+    .withMessage("Category name has non-alphanumeric characters."),
+  body("description")
+    .trim()
+    .isLength({ min: 8 })
+    .escape()
+    .withMessage("Category description must be specified."),
+
+  // Process request after validation and sanitization.
+  (req: Request, res: Response, next: NextFunction) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req)
+
+    // Data from form is valid.
+    const category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+      _id: req.params.id,
+    })
+    switch (!errors.isEmpty()) {
+      case true:
+        res.render("category_form", {
+          title: "Create Category",
+          category: category,
+          errors: errors.array(),
+        })
+        return
+      default:
+        Category.findByIdAndUpdate(
+          req.params.id,
+          category,
+          {},
+          (err, result: ICategory | null) => {
+            if (err) return next(err)
+            else {
+              if (result === null) {
+                res.redirect("/")
+              } else {
+                if (result.url) res.redirect(result.url)
+                else res.redirect("/")
+              }
+            }
+          }
+        )
+    }
+  },
+]
