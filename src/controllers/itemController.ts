@@ -3,6 +3,7 @@ import async from "async"
 import { body, validationResult } from "express-validator"
 import Item, { IItem } from "../models/item"
 import Category from "../models/category"
+import endpoints from "../endpoints.config"
 
 // Display detail page for a specific item.
 export const item_detail: RequestHandler = (req, res, next) => {
@@ -116,16 +117,27 @@ export const item_create_post = [
       brand: req.body.brand,
       // TODO: better image upload
       thumbnail: req.body.thumbnail,
-      images: ["https://picsum.photos/200/300"],
+      images: req.body.thumbnail,
     })
 
     switch (!errors.isEmpty()) {
       case true:
-        res.render("item_form", {
-          title: "Create Item",
-          item: item,
-          errors: errors.array(),
-        })
+        async.parallel(
+          {
+            category(callback) {
+              Category.find(callback)
+            },
+          },
+          (err, results) => {
+            if (err) return next(err)
+            res.render("item_form", {
+              title: "Create Item",
+              item: item,
+              categories: results.category,
+              errors: errors.array(),
+            })
+          }
+        )
         return
       default:
         Item.findOne({ title: req.body.title }).exec((err, found_item) => {
@@ -170,13 +182,49 @@ export const item_delete_get: RequestHandler = (req, res, next) => {
 }
 
 // Handle item delete on POST.
-export const item_delete_post: RequestHandler = (req, res, next) => {
-  // NOTE: /inventory/item:id/delete
-  Item.findByIdAndRemove(req.params.id).exec((err, _) => {
-    if (err) return next(err)
-    else res.redirect("/")
-  })
-}
+export const item_delete_post = [
+  body("password")
+    .exists()
+    .custom((value) => {
+      if (value === endpoints.DELETE_PASSWORD) {
+        return true
+      } else {
+        throw new Error("Password is incorrect")
+      }
+    }),
+
+  // Process request after validation and sanitization.
+  (req: Request, res: Response, next: NextFunction) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req)
+
+    switch (!errors.isEmpty()) {
+      case true:
+        async.parallel(
+          {
+            item(callback) {
+              Item.findById(req.params.id).exec(callback)
+            },
+          },
+          (err, results) => {
+            if (err) return next(err)
+            res.render("item_delete", {
+              title: "Delete Item",
+              item: results.item,
+              errors: errors.array(),
+            })
+          }
+        )
+        return
+
+      default:
+        Item.findByIdAndRemove(req.params.id).exec((err, _) => {
+          if (err) return next(err)
+          res.redirect("/")
+        })
+    }
+  },
+]
 
 // Display item update form on GET.
 export const item_update_get: RequestHandler = (req, res, next) => {
@@ -193,7 +241,7 @@ export const item_update_get: RequestHandler = (req, res, next) => {
     (err, results) => {
       if (err) return next(err)
       else {
-        res.render("item_form", {
+        res.render("item_update_form", {
           title: "Update Item",
           categories: results.category,
           item: results.item,
@@ -202,6 +250,7 @@ export const item_update_get: RequestHandler = (req, res, next) => {
     }
   )
 }
+
 // Handle item update on POST.
 export const item_update_post = [
   // Validate and sanitize fields.
@@ -217,10 +266,7 @@ export const item_update_post = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("category", "Category must not be empty.")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
+  body("category", "Category must not be empty.").trim().exists().escape(),
   body("price", "Price must not be empty.")
     .trim()
     .toFloat()
@@ -262,18 +308,20 @@ export const item_update_post = [
         throw new Error("Thumbnail link must be a valid image url")
       }
     }),
+  body("password")
+    .exists()
+    .custom((value) => {
+      if (value === endpoints.UPDATE_PASSWORD) {
+        return true
+      } else {
+        throw new Error("Password is incorrect")
+      }
+    }),
 
   // Process request after validation and sanitization.
   (req: Request, res: Response, next: NextFunction) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req)
-    const hasImages = () => {
-      if (req.body.images.length > 0) {
-        return req.body.images
-      } else {
-        return ["https://picsum.photos/200/300"]
-      }
-    }
 
     const item = new Item({
       title: req.body.title,
@@ -286,17 +334,28 @@ export const item_update_post = [
       brand: req.body.brand,
       // TODO: better image upload
       thumbnail: req.body.thumbnail,
-      images: hasImages(),
+      images: req.body.thumbnail,
       _id: req.params.id,
     })
 
     switch (!errors.isEmpty()) {
       case true:
-        res.render("item_form", {
-          title: "Update Item",
-          item: item,
-          errors: errors.array(),
-        })
+        async.parallel(
+          {
+            category(callback) {
+              Category.find(callback)
+            },
+          },
+          (err, results) => {
+            if (err) return next(err)
+            res.render("item_update_form", {
+              title: "Update Item",
+              item: item,
+              categories: results.category,
+              errors: errors.array(),
+            })
+          }
+        )
         return
       default:
         Item.findByIdAndUpdate(

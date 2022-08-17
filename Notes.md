@@ -107,5 +107,24 @@ inventory/<object>/<id>/delete — The form to delete a specific item or categor
 
 TODO:
 - The image uploading feature has not been implemented yet.
+  - The images are currently simply the thumbnails, this has to be improved
 - There is an option to pass a link for the thumbnail, but that isn't well implemented as well.
 
+- EXTRA CREDIT:
+  - Prevent the user from deleting or updating unless they are logged in.
+  - Figure out how to protect destructive actions (like deleting and updating) by making users enter a secret admin password to confirm the action.
+
+  <!-- DONE: Using Method 1 -->
+  - Possible Method 1
+    1. create update form page
+    2. add password input field
+    3. check the password and allow or prevent
+  - Possible Method 2 - without a update form page
+    1. Make the submit button create a pop up alert to type in the password
+    2. If the password matches confirm changes
+
+
+
+- EXTRA CREDIT:
+  - For bonus points, try to figure out how to add and upload images for each item. Use this middleware(multer) which was created by the Express team.
+    - The documentation in the README there should be enough to get you going.

@@ -3,6 +3,7 @@ import async from "async"
 import { body, validationResult } from "express-validator"
 import Category, { ICategory } from "../models/category"
 import Item, { IItem } from "../models/item"
+import endpoints from "../endpoints.config"
 
 // NOTE: Homepage
 export const index: RequestHandler = (_, res, next) => {
@@ -132,22 +133,65 @@ export const category_delete_get: RequestHandler = (req, res, next) => {
 }
 
 // Handle category delete on POST.
-export const category_delete_post: RequestHandler = (req, res, next) => {
-  async.parallel(
-    {
-      item(callback) {
-        Item.deleteMany({ category: req.body.id }).exec(callback)
-      },
-      category(callback) {
-        Category.findByIdAndRemove(req.body.id).exec(callback)
-      },
-    },
-    (err, _) => {
-      if (err) return next(err)
-      res.redirect("/")
+export const category_delete_post = [
+  body("password")
+    .exists()
+    .custom((value) => {
+      if (value === endpoints.DELETE_PASSWORD) {
+        return true
+      } else {
+        throw new Error("Password is incorrect")
+      }
+    }),
+
+  // Process request after validation and sanitization.
+  (req: Request, res: Response, next: NextFunction) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req)
+
+    switch (!errors.isEmpty()) {
+      case true:
+        async.parallel(
+          {
+            category(callback) {
+              Category.findById(req.params.id).exec(callback)
+            },
+            items(callback) {
+              Item.find({ category: req.params.id }).exec(callback)
+            },
+          },
+          (err, results) => {
+            if (err) return next(err)
+            else {
+              res.render("category_delete", {
+                title: "Delete Category",
+                category: results.category,
+                items: results.items,
+                errors: errors.array(),
+              })
+            }
+          }
+        )
+        return
+
+      default:
+        async.parallel(
+          {
+            item(callback) {
+              Item.deleteMany({ category: req.body.id }).exec(callback)
+            },
+            category(callback) {
+              Category.findByIdAndRemove(req.body.id).exec(callback)
+            },
+          },
+          (err, _) => {
+            if (err) return next(err)
+            res.redirect("/")
+          }
+        )
     }
-  )
-}
+  },
+]
 
 // Display category update form on GET.
 export const category_update_get: RequestHandler = (req, res, next) => {
@@ -159,7 +203,7 @@ export const category_update_get: RequestHandler = (req, res, next) => {
       res.status(404)
       return next(err)
     } else {
-      res.render("category_form", {
+      res.render("category_update_form", {
         title: "Update Category",
         category: category,
       })
@@ -182,6 +226,15 @@ export const category_update_post = [
     .isLength({ min: 8 })
     .escape()
     .withMessage("Category description must be specified."),
+  body("password")
+    .exists()
+    .custom((value) => {
+      if (value === endpoints.UPDATE_PASSWORD) {
+        return true
+      } else {
+        throw new Error("Password is incorrect")
+      }
+    }),
 
   // Process request after validation and sanitization.
   (req: Request, res: Response, next: NextFunction) => {
@@ -196,7 +249,7 @@ export const category_update_post = [
     })
     switch (!errors.isEmpty()) {
       case true:
-        res.render("category_form", {
+        res.render("category_update_form", {
           title: "Create Category",
           category: category,
           errors: errors.array(),

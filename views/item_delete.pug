@@ -6,6 +6,10 @@ block content
   p(class="text-blue-500") Do you really want to delete this item?
 
   form(method='POST' action='')
+    div.form-group(class="flex max-w-lg w-full justify-between gap-5 my-10")
+      label(for='password' class="capitalize text-2xl text-slate-600") Delete Password:
+      input#password.form-control(type='password' class="text-right px-3" placeholder='Password' name='password' required='true' )
+
     div.form-group
       input#item.form-control(type='hidden', name='id', required='true', value=item._id )
 
