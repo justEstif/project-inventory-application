@@ -4,6 +4,11 @@ block content
   div(class="flex flex-col gap-5")
     h1(class="text-slate-500 text-5xl capitalize")= title
 
+    div(class="flex gap-5 my-3")
+      p
+        a(href=category.url+'/update' class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs leading-tight") Update category
+      p
+        a(href=category.url+'/delete' class="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium text-xs leading-tight") Delete category
   if error
     p Error getting content.
   else
@@ -14,7 +19,3 @@ block content
             a(href=item.url class="capitalize text-2xl text-slate-600 hover:text-blue-600")= item.title
             p= item.description
           img(src=item.thumbnail crossorigin="anonymous")
-    p
-      a(href=category.url+'/update') Update category
-    p
-      a(href=category.url+'/delete') Delete category
