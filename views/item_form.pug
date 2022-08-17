@@ -24,28 +24,29 @@ block content
         label(for='rating' class="capitalize text-2xl text-slate-600") Item Rating(max 5):
         input#rating.form-control(type='number' class="text-right px-3" min="0" max="5" placeholder='Rating' name='rating' required='true' value=(undefined===item ? 0.00 : item.rating) )
       div.form-group(class="flex max-w-lg w-full justify-between gap-5")
-        label(for='description' class="capitalize text-2xl text-slate-600") Description:
-        textarea#description.form-control(rows="3" cols="30" class="text-right"  placeholder='Description' name='description' required='true' value=(undefined===item ? '' : item.description) )
+        label(for='thumbnail' class="capitalize text-2xl text-slate-600") Thumbnail(link):
+        input#thumbnail.form-control(type='text' class="text-right px-3" placeholder='Link' name='thumbnail' required='true' value=(undefined===item ? '' : item.thumbnail) )
       div.form-group(class="flex max-w-lg w-full justify-between gap-5")
         label(for='category' class="capitalize text-2xl text-slate-600") Item Category:
         select#category.form-control(type='select' placeholder='Select category' name='category' required='true' )
           - category.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
           for cat in category
             if item
-              //- Handle GET form, where book.author is an object, and POST form, where it is a string.
               option(
                 value=cat._id
                 selected=(
-                  cat._id.toString()==item.category
-                  || cat._id.toString()==book.category
+                  cat._id.toString()==item.category.toString() || cat._id.toString()==item.category.toString()
                 ) ? 'selected' : false
               ) #{cat.name}
             else
               option(value=cat._id) #{cat.name}
-    button.btn.btn-primary(type='submit' class="px-6 py-2.5 bg-slate-600 hover:bg-blue-600 text-white font-medium text-xs leading-tight") Submit
+    div.form-group(class="flex max-w-lg w-full justify-between gap-5")
+      label(for='description' class="capitalize text-2xl text-slate-600") Description:
+      textarea#description.form-control(rows="3" cols="30" class="text-right" placeholder='Description' name='description' required='true' value=(undefined===item ? '' : item.description) )
+    button.btn.btn-primary(type='submit' class="mt-5 px-6 py-2.5 bg-slate-600 hover:bg-blue-600 text-white font-medium text-xs leading-tight") Submit
 
   if errors
-    ul
+    ul(class="mt-4 text-red-500 flex flex-col gap-5")
       for error in errors
         li!= error.msg
 
