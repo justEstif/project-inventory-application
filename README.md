@@ -7,3 +7,9 @@
   - Express + Typescript
   - Pug + Tailwind
   - Heroku
+
+- TODO:
+
+  - The image uploading feature has not been implemented yet.
+    - Updating an item also replaces the current array of items.
+  - There is an option to pass a link for the thumbnail, but that isn't well implemented as well.

@@ -102,3 +102,10 @@ inventory/<object>/<id>/delete — The form to delete a specific item or categor
 
 - Noticed the text area in the category_form page was not showing the value
   - fixed it by setting the text directly, rather than as value as you would for input element
+
+- Completed the update item page form
+
+TODO:
+- The image uploading feature has not been implemented yet.
+- There is an option to pass a link for the thumbnail, but that isn't well implemented as well.
+
