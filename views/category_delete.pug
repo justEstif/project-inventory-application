@@ -1,25 +1,17 @@
 extends layout
 
 block content
-  h1 #{title}: #{category.name}
-  p= category.description
+  h1(class="capitalize text-4xl") #{title}: #{category.name}
 
-  p #[strong Deleting the category, will delete the following items.]
+  p(class="text-red-700") Deleting the category will delete the following items:
+    div(class="ml-5")
+      each item in items
+        p(class="capitalize")= item.title
 
-  div(style='margin-left:20px;margin-top:20px')
+  p(class="text-blue-500") Do you really want to delete this category?
 
-    h4 Items
+  form(method='POST' action='')
+    div.form-group
+      input#category.form-control(type='hidden', name='id', required='true', value=category._id )
 
-    dl
-    each item in items
-      dt
-        a(href=item.url) #{item.title}
-      dd #{item.description}
-
-    p Do you really want to delete this category ?
-
-    form(method='POST' action='')
-      div.form-group
-        input#category.form-control(type='hidden', name='id', required='true', value=category._id )
-
-      button.btn.btn-primary(type='submit') Delete
+    button.btn.btn-primary(type='submit' class="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium text-xs leading-tight") Delete
