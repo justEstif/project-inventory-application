@@ -1,7 +1,7 @@
 import { RequestHandler, Request, Response, NextFunction } from "express"
 import async from "async"
 import { body, validationResult } from "express-validator"
-import Category from "../models/category"
+import Category, { ICategory } from "../models/category"
 import Item, { IItem } from "../models/item"
 
 // NOTE: Homepage
@@ -150,9 +150,21 @@ export const category_delete_post: RequestHandler = (req, res, next) => {
 }
 
 // Display category update form on GET.
-export const category_update_get: RequestHandler = (_, res) => {
+export const category_update_get: RequestHandler = (req, res, next) => {
   // NOTE: /category:id/update
-  res.send("NOT IMPLEMENTED: category update GET")
+  Category.findById(req.params.id, (err: Error, category: ICategory | null) => {
+    if (err) return next(err)
+    else if (category == null) {
+      const err = new Error("Category not found")
+      res.status(404)
+      return next(err)
+    } else {
+      res.render("category_form", {
+        title: "Update Category",
+        category: category,
+      })
+    }
+  })
 }
 
 // Handle category update on POST.
