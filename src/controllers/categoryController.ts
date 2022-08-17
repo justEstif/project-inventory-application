@@ -159,7 +159,7 @@ export const category_update_get: RequestHandler = (req, res, next) => {
       res.status(404)
       return next(err)
     } else {
-      res.render("category_form", {
+      res.render("category_update_form", {
         title: "Update Category",
         category: category,
       })
@@ -196,7 +196,7 @@ export const category_update_post = [
     })
     switch (!errors.isEmpty()) {
       case true:
-        res.render("category_form", {
+        res.render("category_update_form", {
           title: "Create Category",
           category: category,
           errors: errors.array(),
