@@ -52,7 +52,7 @@ export const item_create_post = [
     .escape(),
   body("description", "Description must not be empty.")
     .trim()
-    .isLength({ min: 8 })
+    .isLength({ min: 1 })
     .escape(),
   body("category", "Category must not be empty.")
     .trim()
@@ -85,6 +85,20 @@ export const item_create_post = [
     .isInt()
     .withMessage("Stock must be a valid number")
     .escape(),
+  body("thumbnail")
+    .exists()
+    .withMessage("Thumbnail is required")
+    .isURL()
+    .withMessage("Thumbnail requires a valid link.")
+    .custom((value) => {
+      const checkIfImage = (url: string) =>
+        /^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url)
+      if (checkIfImage(value)) {
+        return true
+      } else {
+        throw new Error("Thumbnail link must be a valid image url")
+      }
+    }),
 
   // Process request after validation and sanitization.
   (req: Request, res: Response, next: NextFunction) => {
@@ -101,7 +115,7 @@ export const item_create_post = [
       stock: req.body.stock,
       brand: req.body.brand,
       // TODO: better image upload
-      thumbnail: "https://picsum.photos/200/300",
+      thumbnail: req.body.thumbnail,
       images: ["https://picsum.photos/200/300"],
     })
 
@@ -115,7 +129,6 @@ export const item_create_post = [
         (err, results) => {
           if (err) return next(err)
           else {
-            console.log(results.category)
             res.render("item_form", {
               title: "Create Item",
               category: results.category,
@@ -154,7 +167,7 @@ export const item_create_post = [
 
 // Display item delete form on GET.
 export const item_delete_get: RequestHandler = (req, res, next) => {
-  // NOTE: /inventory/item/:id/
+  // NOTE: /inventory/item/:id/delete
   Item.findById(req.params.id).exec((err, item_detail) => {
     if (err) {
       next(err)
