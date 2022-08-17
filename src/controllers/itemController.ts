@@ -219,10 +219,7 @@ export const item_update_post = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("category", "Category must not be empty.")
-    .trim()
-    .isLength({ min: 1 })
-    .escape(),
+  body("category", "Category must not be empty.").trim().exists().escape(),
   body("price", "Price must not be empty.")
     .trim()
     .toFloat()
@@ -266,7 +263,13 @@ export const item_update_post = [
     }),
   body("password")
     .exists()
-    .custom((value) => value === endpoints.UPDATE_PASSWORD),
+    .custom((value) => {
+      if (value === endpoints.UPDATE_PASSWORD) {
+        return true
+      } else {
+        throw new Error("Password is incorrect")
+      }
+    }),
 
   // Process request after validation and sanitization.
   (req: Request, res: Response, next: NextFunction) => {
@@ -290,11 +293,22 @@ export const item_update_post = [
 
     switch (!errors.isEmpty()) {
       case true:
-        res.render("item_update_form", {
-          title: "Update Item",
-          item: item,
-          errors: errors.array(),
-        })
+        async.parallel(
+          {
+            category(callback) {
+              Category.find(callback)
+            },
+          },
+          (err, results) => {
+            if (err) return next(err)
+            res.render("item_update_form", {
+              title: "Update Item",
+              item: item,
+              categories: results.category,
+              errors: errors.array(),
+            })
+          }
+        )
         return
       default:
         Item.findByIdAndUpdate(
