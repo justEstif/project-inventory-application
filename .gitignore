@@ -103,4 +103,5 @@ dist
 # TernJS port file
 .tern-port
 
-.populateddb.js
+# Tailwind output file
+output.css
