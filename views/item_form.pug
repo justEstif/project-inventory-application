@@ -45,7 +45,9 @@ block content
 
     div.form-group(class="flex max-w-lg w-full justify-between gap-5")
       label(for='description' class="capitalize text-2xl text-slate-600") Description:
-      textarea#description.form-control(rows="3" cols="30" class="text-right" placeholder='Description' name='description' required='true' )=item.description
+      textarea#description.form-control(rows="3" cols="30" class="text-right" placeholder='Description' name='description' required='true' )
+        if item
+          #{item.description}
 
     button.btn.btn-primary(type='submit' class="mt-5 px-6 py-2.5 bg-slate-600 hover:bg-blue-600 text-white font-medium text-xs leading-tight") Submit
 

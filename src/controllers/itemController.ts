@@ -122,11 +122,22 @@ export const item_create_post = [
 
     switch (!errors.isEmpty()) {
       case true:
-        res.render("item_form", {
-          title: "Create Item",
-          item: item,
-          errors: errors.array(),
-        })
+        async.parallel(
+          {
+            category(callback) {
+              Category.find(callback)
+            },
+          },
+          (err, results) => {
+            if (err) return next(err)
+            res.render("item_form", {
+              title: "Create Item",
+              item: item,
+              categories: results.category,
+              errors: errors.array(),
+            })
+          }
+        )
         return
       default:
         Item.findOne({ title: req.body.title }).exec((err, found_item) => {
@@ -171,13 +182,49 @@ export const item_delete_get: RequestHandler = (req, res, next) => {
 }
 
 // Handle item delete on POST.
-export const item_delete_post: RequestHandler = (req, res, next) => {
-  // NOTE: /inventory/item:id/delete
-  Item.findByIdAndRemove(req.params.id).exec((err, _) => {
-    if (err) return next(err)
-    else res.redirect("/")
-  })
-}
+export const item_delete_post = [
+  body("password")
+    .exists()
+    .custom((value) => {
+      if (value === endpoints.DELETE_PASSWORD) {
+        return true
+      } else {
+        throw new Error("Password is incorrect")
+      }
+    }),
+
+  // Process request after validation and sanitization.
+  (req: Request, res: Response, next: NextFunction) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req)
+
+    switch (!errors.isEmpty()) {
+      case true:
+        async.parallel(
+          {
+            item(callback) {
+              Item.findById(req.params.id).exec(callback)
+            },
+          },
+          (err, results) => {
+            if (err) return next(err)
+            res.render("item_delete", {
+              title: "Delete Item",
+              item: results.item,
+              errors: errors.array(),
+            })
+          }
+        )
+        return
+
+      default:
+        Item.findByIdAndRemove(req.params.id).exec((err, _) => {
+          if (err) return next(err)
+          res.redirect("/")
+        })
+    }
+  },
+]
 
 // Display item update form on GET.
 export const item_update_get: RequestHandler = (req, res, next) => {
