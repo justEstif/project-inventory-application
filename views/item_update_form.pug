@@ -43,9 +43,13 @@ block content
             else
               option(value=category._id) #{category.name}
 
-    div.form-group(class="flex max-w-lg w-full justify-between gap-5")
+    div.form-group(class="flex max-w-lg w-full justify-between gap-5 my-10")
       label(for='description' class="capitalize text-2xl text-slate-600") Description:
       textarea#description.form-control(rows="3" cols="30" class="text-right" placeholder='Description' name='description' required='true' )=item.description
+
+    div.form-group(class="flex max-w-lg w-full justify-between gap-5 my-10")
+      label(for='password' class="capitalize text-2xl text-slate-600") Update Password:
+      input#password.form-control(type='password' class="text-right px-3" placeholder='Password' name='password' required='true' )
 
     button.btn.btn-primary(type='submit' class="mt-5 px-6 py-2.5 bg-slate-600 hover:bg-blue-600 text-white font-medium text-xs leading-tight") Submit
 
