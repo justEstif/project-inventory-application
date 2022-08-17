@@ -119,48 +119,37 @@ export const item_create_post = [
       images: ["https://picsum.photos/200/300"],
     })
 
-    if (!errors.isEmpty()) {
-      async.parallel(
-        {
-          category(callback) {
-            Category.find(callback)
-          },
-        },
-        (err, results) => {
+    switch (!errors.isEmpty()) {
+      case true:
+        res.render("item_form", {
+          title: "Create Item",
+          item: item,
+          errors: errors.array(),
+        })
+        return
+      default:
+        Item.findOne({ title: req.body.title }).exec((err, found_item) => {
           if (err) return next(err)
-          else {
-            res.render("item_form", {
-              title: "Create Item",
-              category: results.category,
-              errors: errors.array(),
+          else if (found_item) {
+            if (found_item.url) {
+              res.redirect(found_item.url) // redirect to the new doc page
+            } else {
+              res.redirect("/") // redirect to the new doc page
+            }
+          } else {
+            item.save((err) => {
+              // save the form input
+              if (err) return next(err)
+              else {
+                if (item.url) {
+                  res.redirect(item.url) // redirect to the new doc page
+                } else {
+                  res.redirect("/") // redirect to the new doc page
+                }
+              }
             })
           }
-        }
-      )
-      return
-    } else {
-      Item.findOne({ title: req.body.title }).exec((err, found_item) => {
-        if (err) return next(err)
-        else if (found_item) {
-          if (found_item.url) {
-            res.redirect(found_item.url) // redirect to the new doc page
-          } else {
-            res.redirect("/") // redirect to the new doc page
-          }
-        } else {
-          item.save((err) => {
-            // save the form input
-            if (err) return next(err)
-            else {
-              if (item.url) {
-                res.redirect(item.url) // redirect to the new doc page
-              } else {
-                res.redirect("/") // redirect to the new doc page
-              }
-            }
-          })
-        }
-      })
+        })
     }
   },
 ]
