@@ -107,5 +107,6 @@ inventory/<object>/<id>/delete — The form to delete a specific item or categor
 
 TODO:
 - The image uploading feature has not been implemented yet.
+  - The images are currently simply the thumbnails, this has to be improved
 - There is an option to pass a link for the thumbnail, but that isn't well implemented as well.
 
