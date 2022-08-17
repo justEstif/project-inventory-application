@@ -3,6 +3,7 @@ import async from "async"
 import { body, validationResult } from "express-validator"
 import Item, { IItem } from "../models/item"
 import Category from "../models/category"
+import endpoints from "../endpoints.config"
 
 // Display detail page for a specific item.
 export const item_detail: RequestHandler = (req, res, next) => {
@@ -202,6 +203,7 @@ export const item_update_get: RequestHandler = (req, res, next) => {
     }
   )
 }
+
 // Handle item update on POST.
 export const item_update_post = [
   // Validate and sanitize fields.
@@ -262,18 +264,14 @@ export const item_update_post = [
         throw new Error("Thumbnail link must be a valid image url")
       }
     }),
+  body("password")
+    .exists()
+    .custom((value) => value === endpoints.UPDATE_PASSWORD),
 
   // Process request after validation and sanitization.
   (req: Request, res: Response, next: NextFunction) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req)
-    const hasImages = () => {
-      if (req.body.images.length > 0) {
-        return req.body.images
-      } else {
-        return ["https://picsum.photos/200/300"]
-      }
-    }
 
     const item = new Item({
       title: req.body.title,
@@ -286,7 +284,7 @@ export const item_update_post = [
       brand: req.body.brand,
       // TODO: better image upload
       thumbnail: req.body.thumbnail,
-      images: hasImages(),
+      images: req.body.thumbnail,
       _id: req.params.id,
     })
 
