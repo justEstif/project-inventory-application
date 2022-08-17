@@ -153,15 +153,27 @@ export const item_create_post = [
 ]
 
 // Display item delete form on GET.
-export const item_delete_get: RequestHandler = (_, res) => {
-  // NOTE: /inventory/item:id/delete
-  res.send("NOT IMPLEMENTED: item delete GET")
+export const item_delete_get: RequestHandler = (req, res, next) => {
+  // NOTE: /inventory/item/:id/
+  Item.findById(req.params.id).exec((err, item_detail) => {
+    if (err) {
+      next(err)
+    } else {
+      res.render("item_delete", {
+        title: "Delete Item",
+        item: item_detail,
+      })
+    }
+  })
 }
 
 // Handle item delete on POST.
-export const item_delete_post: RequestHandler = (_, res) => {
+export const item_delete_post: RequestHandler = (req, res, next) => {
   // NOTE: /inventory/item:id/delete
-  res.send("NOT IMPLEMENTED: item delete POST")
+  Item.findByIdAndRemove(req.params.id).exec((err, _) => {
+    if (err) return next(err)
+    else res.redirect("/")
+  })
 }
 
 // Display item update form on GET.
