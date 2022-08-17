@@ -193,7 +193,7 @@ export const item_update_get: RequestHandler = (req, res, next) => {
     (err, results) => {
       if (err) return next(err)
       else {
-        res.render("item_form", {
+        res.render("item_update_form", {
           title: "Update Item",
           categories: results.category,
           item: results.item,
@@ -292,7 +292,7 @@ export const item_update_post = [
 
     switch (!errors.isEmpty()) {
       case true:
-        res.render("item_form", {
+        res.render("item_update_form", {
           title: "Update Item",
           item: item,
           errors: errors.array(),
