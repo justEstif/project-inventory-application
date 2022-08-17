@@ -114,6 +114,7 @@ TODO:
   - Prevent the user from deleting or updating unless they are logged in.
   - Figure out how to protect destructive actions (like deleting and updating) by making users enter a secret admin password to confirm the action.
 
+  <!-- DONE: Using Method 1 -->
   - Possible Method 1
     1. create update form page
     2. add password input field
