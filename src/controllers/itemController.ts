@@ -117,7 +117,7 @@ export const item_create_post = [
       brand: req.body.brand,
       // TODO: better image upload
       thumbnail: req.body.thumbnail,
-      images: ["https://picsum.photos/200/300"],
+      images: req.body.thumbnail,
     })
 
     switch (!errors.isEmpty()) {
