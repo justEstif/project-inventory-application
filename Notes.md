@@ -109,3 +109,11 @@ TODO:
 - The image uploading feature has not been implemented yet.
 - There is an option to pass a link for the thumbnail, but that isn't well implemented as well.
 
+- EXTRA CREDIT:
+  - Prevent the user from deleting or updating unless they are logged in.
+  - Figure out how to protect destructive actions (like deleting and updating) by making users enter a secret admin password to confirm the action.
+  - In the item_delete page, add an input field so the user enters a password, and if the password matches submit
+
+- EXTRA CREDIT:
+  - For bonus points, try to figure out how to add and upload images for each item. Use this middleware(multer) which was created by the Express team.
+    - The documentation in the README there should be enough to get you going.
