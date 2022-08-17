@@ -3,6 +3,7 @@ import async from "async"
 import { body, validationResult } from "express-validator"
 import Category, { ICategory } from "../models/category"
 import Item, { IItem } from "../models/item"
+import endpoints from "../endpoints.config"
 
 // NOTE: Homepage
 export const index: RequestHandler = (_, res, next) => {
@@ -182,6 +183,15 @@ export const category_update_post = [
     .isLength({ min: 8 })
     .escape()
     .withMessage("Category description must be specified."),
+  body("password")
+    .exists()
+    .custom((value) => {
+      if (value === endpoints.UPDATE_PASSWORD) {
+        return true
+      } else {
+        throw new Error("Password is incorrect")
+      }
+    }),
 
   // Process request after validation and sanitization.
   (req: Request, res: Response, next: NextFunction) => {
