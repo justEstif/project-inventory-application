@@ -21,12 +21,12 @@ export const index: RequestHandler = (_, res, next) => {
 }
 
 // Display all the items inside of a category
+// NOTE: /category/:id/
 export const category_detail: RequestHandler = (req, res, next) => {
   interface IResult {
     item_list: IItem[]
     category_name: { name: string }
   }
-  // NOTE: /category/:id/
   async.parallel(
     {
       category_name(callback) {
