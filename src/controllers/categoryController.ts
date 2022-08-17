@@ -77,21 +77,21 @@ export const category_create_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req)
 
+    // Data from form is valid.
+    const category = new Category({
+      name: req.body.name,
+      description: req.body.description,
+    })
     switch (!errors.isEmpty()) {
       case true:
         // There are errors. Render form again with sanitized values/errors messages.
         res.render("category_form", {
           title: "Create Category",
-          category: req.body,
+          category: category,
           errors: errors.array(),
         })
         return
       default:
-        // Data from form is valid.
-        const category = new Category({
-          name: req.body.name,
-          description: req.body.description,
-        })
         category.save((err) => {
           if (err) {
             return next(err)
