@@ -133,22 +133,65 @@ export const category_delete_get: RequestHandler = (req, res, next) => {
 }
 
 // Handle category delete on POST.
-export const category_delete_post: RequestHandler = (req, res, next) => {
-  async.parallel(
-    {
-      item(callback) {
-        Item.deleteMany({ category: req.body.id }).exec(callback)
-      },
-      category(callback) {
-        Category.findByIdAndRemove(req.body.id).exec(callback)
-      },
-    },
-    (err, _) => {
-      if (err) return next(err)
-      res.redirect("/")
+export const category_delete_post = [
+  body("password")
+    .exists()
+    .custom((value) => {
+      if (value === endpoints.DELETE_PASSWORD) {
+        return true
+      } else {
+        throw new Error("Password is incorrect")
+      }
+    }),
+
+  // Process request after validation and sanitization.
+  (req: Request, res: Response, next: NextFunction) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req)
+
+    switch (!errors.isEmpty()) {
+      case true:
+        async.parallel(
+          {
+            category(callback) {
+              Category.findById(req.params.id).exec(callback)
+            },
+            items(callback) {
+              Item.find({ category: req.params.id }).exec(callback)
+            },
+          },
+          (err, results) => {
+            if (err) return next(err)
+            else {
+              res.render("category_delete", {
+                title: "Delete Category",
+                category: results.category,
+                items: results.items,
+                errors: errors.array(),
+              })
+            }
+          }
+        )
+        return
+
+      default:
+        async.parallel(
+          {
+            item(callback) {
+              Item.deleteMany({ category: req.body.id }).exec(callback)
+            },
+            category(callback) {
+              Category.findByIdAndRemove(req.body.id).exec(callback)
+            },
+          },
+          (err, _) => {
+            if (err) return next(err)
+            res.redirect("/")
+          }
+        )
     }
-  )
-}
+  },
+]
 
 // Display category update form on GET.
 export const category_update_get: RequestHandler = (req, res, next) => {

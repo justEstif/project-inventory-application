@@ -7,11 +7,17 @@ block content
     div(class="ml-5")
       each item in items
         p(class="capitalize")= item.title
+      else
+        p This category is empty
 
   p(class="text-blue-500") Do you really want to delete this category?
 
   form(method='POST' action='')
     div.form-group
       input#category.form-control(type='hidden', name='id', required='true', value=category._id )
+
+    div.form-group(class="flex max-w-lg w-full justify-between gap-5 my-10")
+      label(for='password' class="capitalize text-2xl text-slate-600") Delete Password:
+      input#password.form-control(type='password' class="text-right px-3" placeholder='Password' name='password' required='true' )
 
     button.btn.btn-primary(type='submit' class="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium text-xs leading-tight") Delete
