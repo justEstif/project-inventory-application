@@ -14,6 +14,12 @@
   - I found this project to be a great overview of mongoose. It felt a lot more intuitive than using firebase.
   - I think I could improve the data model, i.e. the images data type.
     - This would make completing the additional features easier.
+  - I noticed that the MDN local library project that I based my project off used get and post request for everything.
+    - I think I need to fix this in the next version:
+      - C -> POST
+      - R -> GET
+      - U -> PUT
+      - D -> DELETE
 
   - Possible Additions:
 
