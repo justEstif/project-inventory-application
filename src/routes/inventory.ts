@@ -50,7 +50,6 @@ inventoryRouter.post(
 
 /// ITEM ROUTES ///
 
-
 // GET request for creating a item. NOTE This must come before routes that display item (uses id).
 inventoryRouter.get("/item/create", item_controller.item_create_get);
 
